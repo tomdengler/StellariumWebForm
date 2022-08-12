@@ -3,6 +3,9 @@ using System.Net;
 using System.IO;
 using System.Collections.Specialized;
 using System.Web;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+
 
 namespace StellariumWebForm
 {
@@ -15,8 +18,21 @@ namespace StellariumWebForm
 
         private void ButtonCurrentView_Click(object sender, EventArgs e)
         {
-            TextBoxCurrentView.Text = GetCurrentView();
-            
+            // ex: {"altAz":"[0.999722, 9.99722e-06, 0.201384]","j2000":"[-0.34071, 0.572616, -0.772028]","jNow":"[-0.342442, 0.571848, -0.771831]"}
+            string currentView = GetCurrentView();
+            TextBoxCurrentView.Text = currentView;
+
+            JsonNode currentViewNode = JsonNode.Parse(currentView)!;
+            string j2000 = currentViewNode!["j2000"].ToString();
+            string jNow = currentViewNode!["jNow"].ToString();
+            string altAz = currentViewNode!["altAz"].ToString();
+
+            textBoxJ2000.Text = j2000;
+            textBoxJNow.Text = jNow;
+            textBoxAltAz.Text = altAz;
+
+
+
         }
 
         static string GetCurrentView()
