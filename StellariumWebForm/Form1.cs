@@ -31,8 +31,8 @@ namespace StellariumWebForm
             textBoxJNow.Text = jNow;
             textBoxAltAz.Text = altAz;
 
-
-
+            string radecJ2000 = RaDecFromJsonVec3D(j2000);
+            textBoxRADec.Text = radecJ2000;
         }
 
         static string GetCurrentView()
@@ -59,7 +59,7 @@ namespace StellariumWebForm
 
         private void buttonSetCurrentView_Click(object sender, EventArgs e)
         {
-            textBoxResponse.Text = "";
+            toolStripStatusLabel1.Text = "";
 
             string urlHost = "http://localhost:8090";
             string currentViewService = "/api/main/view";
@@ -70,10 +70,6 @@ namespace StellariumWebForm
             NameValueCollection outgoingQueryString = HttpUtility.ParseQueryString(String.Empty);
             outgoingQueryString.Add("j2000", textBoxSetCurrentView.Text);           
             string postData = outgoingQueryString.ToString();
-            // string postData = "j2000=[0.242646, -0.726082, -0.643373]";
-
-            // ASCIIEncoding ascii = new ASCIIEncoding();
-            // byte[] postBytes = ascii.GetBytes(postData.ToString());
             byte[] postBytes = Encoding.UTF8.GetBytes(postData);
             request.ContentLength = postBytes.Length;
             request.ContentType = "application/x-www-form-urlencoded";
@@ -91,7 +87,7 @@ namespace StellariumWebForm
             dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataStream);
             string responseFromServer = reader.ReadToEnd();
-            textBoxResponse.Text = responseFromServer;
+            toolStripStatusLabel1.Text = responseFromServer;
             Console.WriteLine(responseFromServer);
             reader.Close();
             dataStream.Close();
@@ -101,6 +97,7 @@ namespace StellariumWebForm
 
         private void buttonSetRotation_Click(object sender, EventArgs e)
         {
+            toolStripStatusLabel1.Text = "";
             string urlHost = "http://localhost:8090";
             string currentViewService = "/api/stelproperty/set";
 
@@ -125,12 +122,42 @@ namespace StellariumWebForm
             dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataStream);
             string responseFromServer = reader.ReadToEnd();
-            textBoxResponse.Text = responseFromServer;
+            toolStripStatusLabel1.Text = responseFromServer;
             Console.WriteLine(responseFromServer);
             reader.Close();
             dataStream.Close();
             response.Close();
+        }
 
+        private string RaDecFromJsonVec3D(string jsonVec3D)
+        {
+            JsonNode currentViewNode = JsonNode.Parse(jsonVec3D)!;
+            double x = (double)currentViewNode![0];
+            double y = (double)currentViewNode![1];
+            double z = (double)currentViewNode![2];
+
+            double dec = Math.Atan2(z,Math.Sqrt(x * x + y * y));
+            dec=dec*180.0/Math.PI;
+            if (dec > 90)
+                dec = 90 - dec;
+
+            double RA = Math.Atan2(y, x) * 180 / Math.PI;  // RA
+            if (RA < 0)
+                RA += 360;
+            RA /= 15;
+
+            double DecDeg = Math.Truncate(dec);
+            double DecMin = Math.Truncate(60 * (dec - DecDeg));
+            double DecSec = Math.Round(60 * 60 * (dec - (DecDeg + DecMin / 60)), 2);
+
+            double RAHours = Math.Truncate(RA);
+            double RAMin = Math.Truncate(60 * (RA - RAHours)); // trunc(60*(AA18-AB18*15)/15,0)
+            double RASec = Math.Round(60 * 60 * (RA - (RAHours + RAMin / 60)) , 2); // round(60*60*((AA18/15)-(AB18+AC18/60)),2)
+
+            string RaStr = RAHours + "h" + RAMin + "m" + RASec + "s";
+            string DecStr = DecDeg + "\u00b0" + DecMin + "\'" + DecSec + "\"";
+
+            return RaStr + "/" + DecStr;
         }
     }
 }

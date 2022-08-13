@@ -41,6 +41,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.textBoxRADec = new System.Windows.Forms.TextBox();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // ButtonCurrentView
@@ -74,7 +78,7 @@
             // 
             this.textBoxSetCurrentView.Location = new System.Drawing.Point(187, 193);
             this.textBoxSetCurrentView.Name = "textBoxSetCurrentView";
-            this.textBoxSetCurrentView.Size = new System.Drawing.Size(601, 23);
+            this.textBoxSetCurrentView.Size = new System.Drawing.Size(256, 23);
             this.textBoxSetCurrentView.TabIndex = 3;
             // 
             // textBoxResponse
@@ -98,7 +102,7 @@
             // 
             this.textBoxSetRotation.Location = new System.Drawing.Point(187, 224);
             this.textBoxSetRotation.Name = "textBoxSetRotation";
-            this.textBoxSetRotation.Size = new System.Drawing.Size(188, 23);
+            this.textBoxSetRotation.Size = new System.Drawing.Size(68, 23);
             this.textBoxSetRotation.TabIndex = 6;
             // 
             // textBoxJ2000
@@ -149,11 +153,36 @@
             this.label3.TabIndex = 12;
             this.label3.Text = "Alt/Az";
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.TabIndex = 13;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // textBoxRADec
+            // 
+            this.textBoxRADec.Location = new System.Drawing.Point(449, 54);
+            this.textBoxRADec.Name = "textBoxRADec";
+            this.textBoxRADec.Size = new System.Drawing.Size(174, 23);
+            this.textBoxRADec.TabIndex = 14;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.textBoxRADec);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -169,6 +198,8 @@
             this.Controls.Add(this.ButtonCurrentView);
             this.Name = "Form1";
             this.Text = "Stellarium Web Interface";
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -189,5 +220,8 @@
         private Label label1;
         private Label label2;
         private Label label3;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel toolStripStatusLabel1;
+        private TextBox textBoxRADec;
     }
 }
