@@ -5,7 +5,8 @@ using System.Collections.Specialized;
 using System.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-
+using System.Configuration;
+using System.Diagnostics;
 
 namespace StellariumWebForm
 {
@@ -158,6 +159,251 @@ namespace StellariumWebForm
             string DecStr = DecDeg + "\u00b0" + DecMin + "\'" + DecSec + "\"";
 
             return RaStr + "/" + DecStr;
+        }
+
+        private void buttonWatchFolder_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            DialogResult result = folderBrowserDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string folderName = folderBrowserDialog1.SelectedPath;
+                AddUpdateAppSettings("WatchFolder", folderName);
+                textBoxWatchFolder.Text = folderName;
+            }
+
+        }
+
+        static void AddUpdateAppSettings(string key, string value)
+        {
+            try
+            {
+                var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                var settings = configFile.AppSettings.Settings;
+                if (settings[key] == null)
+                {
+                    settings.Add(key, value);
+                }
+                else
+                {
+                    settings[key].Value = value;
+                }
+                configFile.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+            }
+            catch (ConfigurationErrorsException)
+            {
+                Console.WriteLine("Error writing app settings");
+            }
+        }
+
+        private void buttonMostRecent_Click(object sender, EventArgs e)
+        {
+            string watchFolder = textBoxWatchFolder.Text;
+            
+            if (watchFolder == "")
+            {
+                return;
+            }
+
+            var file = new DirectoryInfo(watchFolder).GetFiles().OrderByDescending(o => o.CreationTime).FirstOrDefault();
+            textBoxFileToProcess.Text = file.FullName;
+        }
+
+        public static string GetMostRecentFile(string path)
+        {
+            var file = new DirectoryInfo(path).GetFiles().OrderByDescending(o => o.CreationTime).FirstOrDefault();
+            return file.FullName;
+        }
+
+        private void buttonOther_Click(object sender, EventArgs e)
+        {
+            FileDialog fileDialog = new OpenFileDialog();
+            fileDialog.InitialDirectory = textBoxWatchFolder.Text;
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                textBoxFileToProcess.Text = fileDialog.FileName;
+            }
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            var appSettings = ConfigurationManager.AppSettings;
+
+            string watchFolder = appSettings["WatchFolder"] ?? "";
+            textBoxWatchFolder.Text = watchFolder;
+
+            string astapLocation = appSettings["AstapLocation"] ?? "";
+            if (astapLocation != "")
+                labelAstapLocation.Text = astapLocation + "\\astap.exe";
+            else
+                labelAstapLocation.Text = "astap.exe location not yet set, check Settings";
+        }
+
+        private void ToolStripMenuItemAstap_Click(object sender, EventArgs e)
+        {
+            var appSettings = ConfigurationManager.AppSettings;
+            string astapLocation = appSettings["AstapLocation"] ?? "";
+            
+            FolderBrowserDialog folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            if (astapLocation != "")
+            {
+                folderBrowserDialog1.InitialDirectory = astapLocation;
+            }
+
+            DialogResult result = folderBrowserDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string folderName = folderBrowserDialog1.SelectedPath;
+                AddUpdateAppSettings("AstapLocation", folderName);
+            }
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var appSettings = ConfigurationManager.AppSettings;
+            string astapLocation = appSettings["AstapLocation"] ?? "";
+            string tempFolder = appSettings["TempFolder"] ?? "";
+
+            if (astapLocation == "")
+            {
+                textBoxRunAstapResults.Text = "ASSTAP Location not yet set, go to settings ASTAP to set";
+                return;
+            }
+
+            if (tempFolder == "")
+            {
+                textBoxRunAstapResults.Text = "Temp folder location not yet set, go to settings to set";
+                return;
+            }
+
+            if (!Directory.Exists(tempFolder))
+            {
+                textBoxRunAstapResults.Text = "Temp folder does not exist, go to settings to set";
+                return;
+            }
+
+            string astapExe = astapLocation + "\\astap.exe";
+            if (!File.Exists(astapExe))
+            {
+                textBoxRunAstapResults.Text = astapExe + "not found, check the ASTAP to set";
+                return;
+            }
+
+            string fileToProcess = textBoxFileToProcess.Text;
+
+            if (fileToProcess == "")
+            {
+                textBoxRunAstapResults.Text = "File to process is not set";
+                return;
+            }
+
+            if (!File.Exists(fileToProcess))
+            {
+                textBoxRunAstapResults.Text = fileToProcess + "not found.";
+                return;
+            }
+
+            RunAstap(astapExe, fileToProcess, tempFolder);
+
+        }
+
+        private void RunAstap(string astapExe, string fileToProcess, string tempFolder)
+        {
+            //string exeCommandLine = astapExe + " -f " + fileToProcess;
+            //textBoxRunAstapResults.Text = exeCommandLine;
+
+            // example call: "C:\Program Files\astap\astap.exe"  -ra 16.174166671 -spd 124.560 -fov 0.85
+            // // -z 0 -r 30 -s 500 -f "C:\APT_Images\Camera_1\TemporaryStorage"\ImageToSolve.CR2
+
+            string srcFilename = Path.GetFileName(fileToProcess);
+            string dstFileExt = Path.GetExtension(fileToProcess);
+            string dstFilename = Path.Combine(tempFolder, "FileToProcess"+dstFileExt);
+            string dstIniFilename = Path.Combine(tempFolder, "FileToProcess.ini");
+            string dstWcsFilename = Path.Combine(tempFolder, "FileToProcess.wcs");
+
+            File.Copy(fileToProcess, dstFilename, true);
+            File.Delete(dstIniFilename);
+            File.Delete(dstWcsFilename);
+
+            List<String> argList = new List<String>();
+            argList.Add("-f " + dstFilename);
+            string args = String.Join(" ",argList.ToArray());
+
+            string exeCommandLine = astapExe + " " + args;
+            textBoxRunAstapResults.Text = exeCommandLine;
+
+            int timeout = 1000 * 60;
+
+            ProcessStartInfo psi = new ProcessStartInfo();
+            psi.Arguments = String.Join(" ", args);
+            psi.FileName = astapExe;
+            Process p = Process.Start(psi);
+            p.WaitForInputIdle();
+
+            if (timeout != 0)
+            {
+                p.WaitForExit(timeout);
+                if (p.HasExited == false)
+                {
+                    //Process is still running.
+                    //Test to see if the process is hung up.
+                    if (p.Responding)
+                    {
+                        //Process was responding; close the main window.
+                        p.CloseMainWindow();
+                        textBoxRunAstapResults.AppendText("astap timed out before completing");
+                        return;
+                    }
+                    else
+                    {
+                        //Process was not responding; force the process to close.
+                        p.Kill();
+                        textBoxRunAstapResults.AppendText("astap process killed because itwas not responding");
+                        return;
+                    }
+                }
+                else
+                    textBoxRunAstapResults.AppendText("astap completed");
+
+            }
+            else
+            {
+                p.WaitForExit();
+                textBoxRunAstapResults.AppendText("astap completed");
+            }
+
+            if (File.Exists(dstIniFilename))
+            {
+                string iniFileText = File.ReadAllText(dstIniFilename);
+                textBoxRunAstapResults.AppendText(iniFileText);
+            }
+            else
+            {
+                textBoxRunAstapResults.AppendText("\nIni file not found (????)"+ dstIniFilename);
+            }
+        }
+
+        private void tempFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var appSettings = ConfigurationManager.AppSettings;
+            string tempFolder = appSettings["TempFolder"] ?? "";
+
+            FolderBrowserDialog folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            if (tempFolder != "")
+            {
+                folderBrowserDialog1.InitialDirectory = tempFolder;
+            }
+
+            DialogResult result = folderBrowserDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string folderName = folderBrowserDialog1.SelectedPath;
+                AddUpdateAppSettings("TempFolder", folderName);
+            }
+
         }
     }
 }

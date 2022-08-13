@@ -32,7 +32,7 @@
             this.TextBoxCurrentView = new System.Windows.Forms.TextBox();
             this.buttonSetCurrentView = new System.Windows.Forms.Button();
             this.textBoxSetCurrentView = new System.Windows.Forms.TextBox();
-            this.textBoxResponse = new System.Windows.Forms.TextBox();
+            this.textBoxWatchFolder = new System.Windows.Forms.TextBox();
             this.buttonSetRotation = new System.Windows.Forms.Button();
             this.textBoxSetRotation = new System.Windows.Forms.TextBox();
             this.textBoxJ2000 = new System.Windows.Forms.TextBox();
@@ -44,7 +44,19 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.textBoxRADec = new System.Windows.Forms.TextBox();
+            this.buttonWatchFolder = new System.Windows.Forms.Button();
+            this.buttonMostRecent = new System.Windows.Forms.Button();
+            this.buttonOther = new System.Windows.Forms.Button();
+            this.textBoxFileToProcess = new System.Windows.Forms.TextBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemAstap = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
+            this.labelAstapLocation = new System.Windows.Forms.Label();
+            this.textBoxRunAstapResults = new System.Windows.Forms.TextBox();
+            this.tempFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // ButtonCurrentView
@@ -66,7 +78,7 @@
             // 
             // buttonSetCurrentView
             // 
-            this.buttonSetCurrentView.Location = new System.Drawing.Point(12, 193);
+            this.buttonSetCurrentView.Location = new System.Drawing.Point(12, 141);
             this.buttonSetCurrentView.Name = "buttonSetCurrentView";
             this.buttonSetCurrentView.Size = new System.Drawing.Size(169, 24);
             this.buttonSetCurrentView.TabIndex = 2;
@@ -76,21 +88,21 @@
             // 
             // textBoxSetCurrentView
             // 
-            this.textBoxSetCurrentView.Location = new System.Drawing.Point(187, 193);
+            this.textBoxSetCurrentView.Location = new System.Drawing.Point(187, 141);
             this.textBoxSetCurrentView.Name = "textBoxSetCurrentView";
             this.textBoxSetCurrentView.Size = new System.Drawing.Size(256, 23);
             this.textBoxSetCurrentView.TabIndex = 3;
             // 
-            // textBoxResponse
+            // textBoxWatchFolder
             // 
-            this.textBoxResponse.Location = new System.Drawing.Point(187, 273);
-            this.textBoxResponse.Name = "textBoxResponse";
-            this.textBoxResponse.Size = new System.Drawing.Size(604, 23);
-            this.textBoxResponse.TabIndex = 4;
+            this.textBoxWatchFolder.Location = new System.Drawing.Point(187, 235);
+            this.textBoxWatchFolder.Name = "textBoxWatchFolder";
+            this.textBoxWatchFolder.Size = new System.Drawing.Size(601, 23);
+            this.textBoxWatchFolder.TabIndex = 4;
             // 
             // buttonSetRotation
             // 
-            this.buttonSetRotation.Location = new System.Drawing.Point(12, 223);
+            this.buttonSetRotation.Location = new System.Drawing.Point(12, 171);
             this.buttonSetRotation.Name = "buttonSetRotation";
             this.buttonSetRotation.Size = new System.Drawing.Size(169, 23);
             this.buttonSetRotation.TabIndex = 5;
@@ -100,7 +112,7 @@
             // 
             // textBoxSetRotation
             // 
-            this.textBoxSetRotation.Location = new System.Drawing.Point(187, 224);
+            this.textBoxSetRotation.Location = new System.Drawing.Point(187, 172);
             this.textBoxSetRotation.Name = "textBoxSetRotation";
             this.textBoxSetRotation.Size = new System.Drawing.Size(68, 23);
             this.textBoxSetRotation.TabIndex = 6;
@@ -157,7 +169,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 480);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
             this.statusStrip1.TabIndex = 13;
@@ -176,13 +188,120 @@
             this.textBoxRADec.Size = new System.Drawing.Size(174, 23);
             this.textBoxRADec.TabIndex = 14;
             // 
+            // buttonWatchFolder
+            // 
+            this.buttonWatchFolder.Location = new System.Drawing.Point(12, 235);
+            this.buttonWatchFolder.Name = "buttonWatchFolder";
+            this.buttonWatchFolder.Size = new System.Drawing.Size(166, 23);
+            this.buttonWatchFolder.TabIndex = 15;
+            this.buttonWatchFolder.Text = "Watch Folder";
+            this.buttonWatchFolder.UseVisualStyleBackColor = true;
+            this.buttonWatchFolder.Click += new System.EventHandler(this.buttonWatchFolder_Click);
+            // 
+            // buttonMostRecent
+            // 
+            this.buttonMostRecent.Location = new System.Drawing.Point(12, 264);
+            this.buttonMostRecent.Name = "buttonMostRecent";
+            this.buttonMostRecent.Size = new System.Drawing.Size(93, 23);
+            this.buttonMostRecent.TabIndex = 16;
+            this.buttonMostRecent.Text = "Most Recent";
+            this.buttonMostRecent.UseVisualStyleBackColor = true;
+            this.buttonMostRecent.Click += new System.EventHandler(this.buttonMostRecent_Click);
+            // 
+            // buttonOther
+            // 
+            this.buttonOther.Location = new System.Drawing.Point(111, 264);
+            this.buttonOther.Name = "buttonOther";
+            this.buttonOther.Size = new System.Drawing.Size(67, 23);
+            this.buttonOther.TabIndex = 17;
+            this.buttonOther.Text = "Other";
+            this.buttonOther.UseVisualStyleBackColor = true;
+            this.buttonOther.Click += new System.EventHandler(this.buttonOther_Click);
+            // 
+            // textBoxFileToProcess
+            // 
+            this.textBoxFileToProcess.Location = new System.Drawing.Point(187, 264);
+            this.textBoxFileToProcess.Name = "textBoxFileToProcess";
+            this.textBoxFileToProcess.Size = new System.Drawing.Size(601, 23);
+            this.textBoxFileToProcess.TabIndex = 18;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingsToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.TabIndex = 19;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItemAstap,
+            this.tempFolderToolStripMenuItem});
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            // 
+            // ToolStripMenuItemAstap
+            // 
+            this.ToolStripMenuItemAstap.Name = "ToolStripMenuItemAstap";
+            this.ToolStripMenuItemAstap.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemAstap.Text = "ASTAP";
+            this.ToolStripMenuItemAstap.Click += new System.EventHandler(this.ToolStripMenuItemAstap_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(19, 302);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(159, 23);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "Run ASTAP";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // labelAstapLocation
+            // 
+            this.labelAstapLocation.AutoSize = true;
+            this.labelAstapLocation.Location = new System.Drawing.Point(184, 306);
+            this.labelAstapLocation.Name = "labelAstapLocation";
+            this.labelAstapLocation.Size = new System.Drawing.Size(81, 15);
+            this.labelAstapLocation.TabIndex = 21;
+            this.labelAstapLocation.Text = "astapLocation";
+            // 
+            // textBoxRunAstapResults
+            // 
+            this.textBoxRunAstapResults.Location = new System.Drawing.Point(187, 329);
+            this.textBoxRunAstapResults.MinimumSize = new System.Drawing.Size(0, 100);
+            this.textBoxRunAstapResults.Multiline = true;
+            this.textBoxRunAstapResults.Name = "textBoxRunAstapResults";
+            this.textBoxRunAstapResults.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxRunAstapResults.Size = new System.Drawing.Size(601, 136);
+            this.textBoxRunAstapResults.TabIndex = 22;
+            // 
+            // tempFolderToolStripMenuItem
+            // 
+            this.tempFolderToolStripMenuItem.Name = "tempFolderToolStripMenuItem";
+            this.tempFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tempFolderToolStripMenuItem.Text = "Temp folder";
+            this.tempFolderToolStripMenuItem.Click += new System.EventHandler(this.tempFolderToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 502);
+            this.Controls.Add(this.textBoxRunAstapResults);
+            this.Controls.Add(this.labelAstapLocation);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.textBoxFileToProcess);
+            this.Controls.Add(this.buttonOther);
+            this.Controls.Add(this.buttonMostRecent);
+            this.Controls.Add(this.buttonWatchFolder);
             this.Controls.Add(this.textBoxRADec);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -191,15 +310,19 @@
             this.Controls.Add(this.textBoxJ2000);
             this.Controls.Add(this.textBoxSetRotation);
             this.Controls.Add(this.buttonSetRotation);
-            this.Controls.Add(this.textBoxResponse);
+            this.Controls.Add(this.textBoxWatchFolder);
             this.Controls.Add(this.textBoxSetCurrentView);
             this.Controls.Add(this.buttonSetCurrentView);
             this.Controls.Add(this.TextBoxCurrentView);
             this.Controls.Add(this.ButtonCurrentView);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Stellarium Web Interface";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,7 +334,7 @@
         private TextBox TextBoxCurrentView;
         private Button buttonSetCurrentView;
         private TextBox textBoxSetCurrentView;
-        private TextBox textBoxResponse;
+        private TextBox textBoxWatchFolder;
         private Button buttonSetRotation;
         private TextBox textBoxSetRotation;
         private TextBox textBoxJ2000;
@@ -223,5 +346,16 @@
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
         private TextBox textBoxRADec;
+        private Button buttonWatchFolder;
+        private Button buttonMostRecent;
+        private Button buttonOther;
+        private TextBox textBoxFileToProcess;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem settingsToolStripMenuItem;
+        private ToolStripMenuItem ToolStripMenuItemAstap;
+        private Button button1;
+        private Label labelAstapLocation;
+        private TextBox textBoxRunAstapResults;
+        private ToolStripMenuItem tempFolderToolStripMenuItem;
     }
 }
