@@ -12,6 +12,7 @@ namespace StellariumWebForm
 {
     public partial class Form1 : Form
     {
+        string lastOtherFolder;
         public Form1()
         {
             InitializeComponent();
@@ -219,11 +220,21 @@ namespace StellariumWebForm
         private void buttonOther_Click(object sender, EventArgs e)
         {
             FileDialog fileDialog = new OpenFileDialog();
-            fileDialog.InitialDirectory = textBoxWatchFolder.Text;
+            fileDialog.Filter= "CR2 files|*.cr2|All files (*.*)|*.*";
+            fileDialog.FilterIndex = 1;
+
+            if (lastOtherFolder != "")
+                fileDialog.InitialDirectory = lastOtherFolder;
+            else
+                fileDialog.InitialDirectory = textBoxWatchFolder.Text;
+
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 textBoxFileToProcess.Text = fileDialog.FileName;
+                lastOtherFolder = Path.GetDirectoryName(fileDialog.FileName);
             }
+
+            
 
         }
 
@@ -239,6 +250,8 @@ namespace StellariumWebForm
                 labelAstapLocation.Text = astapLocation + "\\astap.exe";
             else
                 labelAstapLocation.Text = "astap.exe location not yet set, check Settings";
+
+            lastOtherFolder = "";
         }
 
         private void ToolStripMenuItemAstap_Click(object sender, EventArgs e)
@@ -447,6 +460,75 @@ namespace StellariumWebForm
                 AddUpdateAppSettings("TempFolder", folderName);
             }
 
+        }
+
+        private void checkBoxNightVision_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxNightVision.Checked)
+            {
+                ChangeColorScheme(1);
+            }
+            else
+                ChangeColorScheme(0);
+        }
+
+        private void ChangeColorScheme(int v)
+        {
+
+            Color newBGColor = Color.DarkRed;
+            Color newFGColor = Color.Orange;
+
+            if (v == 1)
+            {
+                this.FormBorderStyle = FormBorderStyle.None;
+                this.BackColor = newBGColor;
+                this.ForeColor = newFGColor;
+                textBoxRunAstapResults.ScrollBars = ScrollBars.None;
+
+                foreach (Control c in this.Controls)
+                {
+                    UpdateColorControls(c, newBGColor, newFGColor);
+                }
+            }
+            else
+            {
+                this.FormBorderStyle = FormBorderStyle.Sizable;
+                this.BackColor = Form1.DefaultBackColor;
+                this.ForeColor = Form1.DefaultForeColor;
+                textBoxRunAstapResults.ScrollBars = ScrollBars.Vertical;
+
+                foreach (Control c in this.Controls)
+                {
+                    UpdateColorControlsDefault(c);
+                }
+            }
+
+            
+        }
+
+        public void UpdateColorControls(Control myControl,Color newBGColor, Color newFGColor)
+        {
+            myControl.BackColor = newBGColor;
+            myControl.ForeColor = newFGColor;
+            foreach (Control subC in myControl.Controls)
+            {
+                UpdateColorControls(subC,newBGColor, newFGColor);
+            }
+        }
+
+        public void UpdateColorControlsDefault(Control myControl)
+        {
+            myControl.BackColor = default(Color);
+            myControl.ForeColor = default(Color);
+            foreach (Control subC in myControl.Controls)
+            {
+                UpdateColorControlsDefault(subC);
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

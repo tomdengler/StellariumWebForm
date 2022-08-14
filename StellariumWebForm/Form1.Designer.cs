@@ -51,10 +51,12 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemAstap = new System.Windows.Forms.ToolStripMenuItem();
+            this.tempFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
             this.labelAstapLocation = new System.Windows.Forms.Label();
             this.textBoxRunAstapResults = new System.Windows.Forms.TextBox();
-            this.tempFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkBoxNightVision = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -239,7 +241,8 @@
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItemAstap,
-            this.tempFolderToolStripMenuItem});
+            this.tempFolderToolStripMenuItem,
+            this.exitToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
@@ -247,9 +250,23 @@
             // ToolStripMenuItemAstap
             // 
             this.ToolStripMenuItemAstap.Name = "ToolStripMenuItemAstap";
-            this.ToolStripMenuItemAstap.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemAstap.Size = new System.Drawing.Size(137, 22);
             this.ToolStripMenuItemAstap.Text = "ASTAP";
             this.ToolStripMenuItemAstap.Click += new System.EventHandler(this.ToolStripMenuItemAstap_Click);
+            // 
+            // tempFolderToolStripMenuItem
+            // 
+            this.tempFolderToolStripMenuItem.Name = "tempFolderToolStripMenuItem";
+            this.tempFolderToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.tempFolderToolStripMenuItem.Text = "Temp folder";
+            this.tempFolderToolStripMenuItem.Click += new System.EventHandler(this.tempFolderToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // button1
             // 
@@ -280,18 +297,24 @@
             this.textBoxRunAstapResults.Size = new System.Drawing.Size(601, 136);
             this.textBoxRunAstapResults.TabIndex = 22;
             // 
-            // tempFolderToolStripMenuItem
+            // checkBoxNightVision
             // 
-            this.tempFolderToolStripMenuItem.Name = "tempFolderToolStripMenuItem";
-            this.tempFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.tempFolderToolStripMenuItem.Text = "Temp folder";
-            this.tempFolderToolStripMenuItem.Click += new System.EventHandler(this.tempFolderToolStripMenuItem_Click);
+            this.checkBoxNightVision.AutoSize = true;
+            this.checkBoxNightVision.Location = new System.Drawing.Point(7, 454);
+            this.checkBoxNightVision.Name = "checkBoxNightVision";
+            this.checkBoxNightVision.Size = new System.Drawing.Size(88, 19);
+            this.checkBoxNightVision.TabIndex = 23;
+            this.checkBoxNightVision.Text = "night vision";
+            this.checkBoxNightVision.UseVisualStyleBackColor = true;
+            this.checkBoxNightVision.CheckedChanged += new System.EventHandler(this.checkBoxNightVision_CheckedChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(800, 502);
+            this.Controls.Add(this.checkBoxNightVision);
             this.Controls.Add(this.textBoxRunAstapResults);
             this.Controls.Add(this.labelAstapLocation);
             this.Controls.Add(this.button1);
@@ -315,6 +338,7 @@
             this.Controls.Add(this.buttonSetCurrentView);
             this.Controls.Add(this.TextBoxCurrentView);
             this.Controls.Add(this.ButtonCurrentView);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Stellarium Web Interface";
@@ -357,5 +381,7 @@
         private Label labelAstapLocation;
         private TextBox textBoxRunAstapResults;
         private ToolStripMenuItem tempFolderToolStripMenuItem;
+        private CheckBox checkBoxNightVision;
+        private ToolStripMenuItem exitToolStripMenuItem;
     }
 }
