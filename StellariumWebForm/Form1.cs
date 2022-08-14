@@ -485,6 +485,9 @@ namespace StellariumWebForm
                 this.ForeColor = newFGColor;
                 textBoxRunAstapResults.ScrollBars = ScrollBars.None;
 
+                BorderStyle bs = BorderStyle.FixedSingle;
+                UpdateBorderStyles(bs,FlatStyle.Flat);
+
                 foreach (Control c in this.Controls)
                 {
                     UpdateColorControls(c, newBGColor, newFGColor);
@@ -497,6 +500,9 @@ namespace StellariumWebForm
                 this.ForeColor = Form1.DefaultForeColor;
                 textBoxRunAstapResults.ScrollBars = ScrollBars.Vertical;
 
+                BorderStyle bs = BorderStyle.Fixed3D;
+                UpdateBorderStyles(bs,FlatStyle.Standard);
+
                 foreach (Control c in this.Controls)
                 {
                     UpdateColorControlsDefault(c);
@@ -504,6 +510,29 @@ namespace StellariumWebForm
             }
 
             
+        }
+
+        private void UpdateBorderStyles(BorderStyle bs, FlatStyle fs)
+        {
+            TextBoxCurrentView.BorderStyle = bs;
+            textBoxSetCurrentView.BorderStyle = bs;
+            textBoxWatchFolder.BorderStyle = bs;
+            textBoxSetRotation.BorderStyle = bs;
+            textBoxJ2000.BorderStyle = bs;
+            textBoxJNow.BorderStyle = bs;
+            textBoxAltAz.BorderStyle = bs;
+            textBoxRADec.BorderStyle = bs;
+            textBoxFileToProcess.BorderStyle = bs;
+            textBoxRunAstapResults.BorderStyle = bs;
+
+            ButtonCurrentView.FlatStyle = fs;
+            buttonSetCurrentView.FlatStyle = fs;
+            buttonSetRotation.FlatStyle = fs;
+            buttonWatchFolder.FlatStyle = fs;
+            buttonMostRecent.FlatStyle = fs;
+            buttonOther.FlatStyle = fs;
+            button1.FlatStyle = fs;
+
         }
 
         public void UpdateColorControls(Control myControl,Color newBGColor, Color newFGColor)
@@ -520,6 +549,7 @@ namespace StellariumWebForm
         {
             myControl.BackColor = default(Color);
             myControl.ForeColor = default(Color);
+
             foreach (Control subC in myControl.Controls)
             {
                 UpdateColorControlsDefault(subC);
