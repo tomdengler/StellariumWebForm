@@ -354,36 +354,79 @@ namespace StellariumWebForm
                     {
                         //Process was responding; close the main window.
                         p.CloseMainWindow();
-                        textBoxRunAstapResults.AppendText("astap timed out before completing");
+                        textBoxRunAstapResults.AppendText("\r\nastap timed out before completing");
                         return;
                     }
                     else
                     {
                         //Process was not responding; force the process to close.
                         p.Kill();
-                        textBoxRunAstapResults.AppendText("astap process killed because itwas not responding");
+                        textBoxRunAstapResults.AppendText("\r\nastap process killed because itwas not responding");
                         return;
                     }
                 }
                 else
-                    textBoxRunAstapResults.AppendText("astap completed");
+                    textBoxRunAstapResults.AppendText("\r\nastap completed");
 
             }
             else
             {
                 p.WaitForExit();
-                textBoxRunAstapResults.AppendText("astap completed");
+                textBoxRunAstapResults.AppendText("\r\nastap completed");
             }
 
             if (File.Exists(dstIniFilename))
             {
                 string iniFileText = File.ReadAllText(dstIniFilename);
-                textBoxRunAstapResults.AppendText(iniFileText);
+                textBoxRunAstapResults.AppendText(dstIniFilename);
+                Dictionary<String, String> iniDict = processIniFile(dstIniFilename);
+
+                if (iniDict["PLTSOLVD"]!="T")
+                {
+                    textBoxRunAstapResults.AppendText("\r\n\r\nPlate solver failed");
+                    return;
+                }
+                double RA = Convert.ToDouble(iniDict["CRVAL1"]);
+                double dec = Convert.ToDouble(iniDict["CRVAL2"]);
+
+                textBoxRunAstapResults.AppendText("\r\n\r\nRA: " + RA);
+                textBoxRunAstapResults.AppendText("\r\ndec: " + dec);
+
+                RA *=  Math.PI/ 180;
+                dec *= Math.PI / 180;
+
+                string xyz = GetStellariumXYZ(RA, dec);
+                textBoxRunAstapResults.AppendText("\r\n\r\n"+xyz);
+                textBoxSetCurrentView.Text = xyz;
+
             }
             else
             {
-                textBoxRunAstapResults.AppendText("\nIni file not found (????)"+ dstIniFilename);
+                textBoxRunAstapResults.AppendText("\r\nIni file not found (????)" + dstIniFilename);
             }
+        }
+
+        private string GetStellariumXYZ(double RA, double dec)
+        {
+            double x = Math.Cos(dec) * Math.Cos(RA);
+            double y = Math.Cos(dec) * Math.Sin(RA);
+            double z = Math.Sin(dec);
+            string xyz = "[" + x + "," + y + "," + z + "]";
+            return xyz;
+        }
+
+        private static Dictionary<string, string>  processIniFile(string filename)
+        {
+            var lines = File.ReadAllLines(filename);
+            var dict = new Dictionary<string, string>();
+
+            foreach (var s in lines)
+            {
+                var split = s.Split("=");
+                dict.Add(split[0], split[1]);
+            }
+
+            return dict;
         }
 
         private void tempFolderToolStripMenuItem_Click(object sender, EventArgs e)
