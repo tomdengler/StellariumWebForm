@@ -57,6 +57,10 @@
             this.labelAstapLocation = new System.Windows.Forms.Label();
             this.textBoxRunAstapResults = new System.Windows.Forms.TextBox();
             this.checkBoxNightVision = new System.Windows.Forms.CheckBox();
+            this.textBoxFov = new System.Windows.Forms.TextBox();
+            this.checkBoxFov = new System.Windows.Forms.CheckBox();
+            this.checkBoxRA = new System.Windows.Forms.CheckBox();
+            this.textBoxRAhrs = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -270,7 +274,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(19, 302);
+            this.button1.Location = new System.Drawing.Point(12, 302);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(159, 23);
             this.button1.TabIndex = 20;
@@ -308,12 +312,50 @@
             this.checkBoxNightVision.UseVisualStyleBackColor = true;
             this.checkBoxNightVision.CheckedChanged += new System.EventHandler(this.checkBoxNightVision_CheckedChanged);
             // 
+            // textBoxFov
+            // 
+            this.textBoxFov.Location = new System.Drawing.Point(78, 342);
+            this.textBoxFov.Name = "textBoxFov";
+            this.textBoxFov.Size = new System.Drawing.Size(100, 23);
+            this.textBoxFov.TabIndex = 24;
+            // 
+            // checkBoxFov
+            // 
+            this.checkBoxFov.AutoSize = true;
+            this.checkBoxFov.Location = new System.Drawing.Point(12, 344);
+            this.checkBoxFov.Name = "checkBoxFov";
+            this.checkBoxFov.Size = new System.Drawing.Size(48, 19);
+            this.checkBoxFov.TabIndex = 25;
+            this.checkBoxFov.Text = "FOV";
+            this.checkBoxFov.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRA
+            // 
+            this.checkBoxRA.AutoSize = true;
+            this.checkBoxRA.Location = new System.Drawing.Point(12, 375);
+            this.checkBoxRA.Name = "checkBoxRA";
+            this.checkBoxRA.Size = new System.Drawing.Size(60, 19);
+            this.checkBoxRA.TabIndex = 26;
+            this.checkBoxRA.Text = "RA hrs";
+            this.checkBoxRA.UseVisualStyleBackColor = true;
+            // 
+            // textBoxRAhrs
+            // 
+            this.textBoxRAhrs.Location = new System.Drawing.Point(78, 371);
+            this.textBoxRAhrs.Name = "textBoxRAhrs";
+            this.textBoxRAhrs.Size = new System.Drawing.Size(100, 23);
+            this.textBoxRAhrs.TabIndex = 27;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(800, 502);
+            this.Controls.Add(this.textBoxRAhrs);
+            this.Controls.Add(this.checkBoxRA);
+            this.Controls.Add(this.checkBoxFov);
+            this.Controls.Add(this.textBoxFov);
             this.Controls.Add(this.checkBoxNightVision);
             this.Controls.Add(this.textBoxRunAstapResults);
             this.Controls.Add(this.labelAstapLocation);
@@ -383,5 +425,9 @@
         private ToolStripMenuItem tempFolderToolStripMenuItem;
         private CheckBox checkBoxNightVision;
         private ToolStripMenuItem exitToolStripMenuItem;
+        private TextBox textBoxFov;
+        private CheckBox checkBoxFov;
+        private CheckBox checkBoxRA;
+        private TextBox textBoxRAhrs;
     }
 }

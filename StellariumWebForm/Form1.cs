@@ -342,6 +342,15 @@ namespace StellariumWebForm
             File.Delete(dstWcsFilename);
 
             List<String> argList = new List<String>();
+
+            if (checkBoxFov.Checked)
+            {
+                argList.Add("-fov " + textBoxFov.Text);
+            }
+
+            if (checkBoxRA.Checked)
+                argList.Add("-ra " + textBoxRAhrs.Text);
+
             argList.Add("-f " + dstFilename);
             string args = String.Join(" ",argList.ToArray());
 
@@ -388,10 +397,17 @@ namespace StellariumWebForm
                 textBoxRunAstapResults.AppendText("\r\nastap completed");
             }
 
+            if (File.Exists(dstWcsFilename))
+            {
+                string fileText = File.ReadAllText(dstWcsFilename);
+                textBoxRunAstapResults.AppendText("\n\r" + fileText);
+
+            }
+
             if (File.Exists(dstIniFilename))
             {
                 string iniFileText = File.ReadAllText(dstIniFilename);
-                textBoxRunAstapResults.AppendText(dstIniFilename);
+                textBoxRunAstapResults.AppendText("\n\r"+dstIniFilename);
                 Dictionary<String, String> iniDict = processIniFile(dstIniFilename);
 
                 if (iniDict["PLTSOLVD"]!="T")
@@ -401,6 +417,8 @@ namespace StellariumWebForm
                 }
                 double RA = Convert.ToDouble(iniDict["CRVAL1"]);
                 double dec = Convert.ToDouble(iniDict["CRVAL2"]);
+
+                textBoxRAhrs.Text = Math.Round(RA / 15.0, 2).ToString();
 
                 textBoxRunAstapResults.AppendText("\r\n\r\nRA: " + RA);
                 textBoxRunAstapResults.AppendText("\r\ndec: " + dec);
@@ -475,7 +493,7 @@ namespace StellariumWebForm
         private void ChangeColorScheme(int v)
         {
 
-            Color newBGColor = Color.DarkRed;
+            Color newBGColor = Color.Maroon;
             Color newFGColor = Color.Orange;
 
             if (v == 1)
@@ -524,6 +542,8 @@ namespace StellariumWebForm
             textBoxRADec.BorderStyle = bs;
             textBoxFileToProcess.BorderStyle = bs;
             textBoxRunAstapResults.BorderStyle = bs;
+            textBoxFov.BorderStyle = bs;
+            textBoxRAhrs.BorderStyle = bs; 
 
             ButtonCurrentView.FlatStyle = fs;
             buttonSetCurrentView.FlatStyle = fs;
@@ -532,6 +552,10 @@ namespace StellariumWebForm
             buttonMostRecent.FlatStyle = fs;
             buttonOther.FlatStyle = fs;
             button1.FlatStyle = fs;
+
+            checkBoxNightVision.FlatStyle = fs;
+            checkBoxFov.FlatStyle = fs;
+            checkBoxRA.FlatStyle = fs;
 
         }
 
