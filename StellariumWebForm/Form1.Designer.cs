@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.ButtonCurrentView = new System.Windows.Forms.Button();
             this.TextBoxCurrentView = new System.Windows.Forms.TextBox();
             this.buttonSetCurrentView = new System.Windows.Forms.Button();
@@ -381,6 +382,7 @@
             this.Controls.Add(this.TextBoxCurrentView);
             this.Controls.Add(this.ButtonCurrentView);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Stellarium Web Interface";
