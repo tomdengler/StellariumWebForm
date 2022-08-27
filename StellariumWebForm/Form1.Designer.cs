@@ -65,6 +65,7 @@
             this.textBoxDec = new System.Windows.Forms.TextBox();
             this.checkBoxDec = new System.Windows.Forms.CheckBox();
             this.checkBoxAutoSet = new System.Windows.Forms.CheckBox();
+            this.buttonView = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -232,7 +233,7 @@
             // 
             this.textBoxFileToProcess.Location = new System.Drawing.Point(187, 264);
             this.textBoxFileToProcess.Name = "textBoxFileToProcess";
-            this.textBoxFileToProcess.Size = new System.Drawing.Size(601, 23);
+            this.textBoxFileToProcess.Size = new System.Drawing.Size(491, 23);
             this.textBoxFileToProcess.TabIndex = 18;
             // 
             // menuStrip1
@@ -377,12 +378,23 @@
             this.checkBoxAutoSet.Text = "Auto Set";
             this.checkBoxAutoSet.UseVisualStyleBackColor = true;
             // 
+            // buttonView
+            // 
+            this.buttonView.Location = new System.Drawing.Point(684, 264);
+            this.buttonView.Name = "buttonView";
+            this.buttonView.Size = new System.Drawing.Size(104, 23);
+            this.buttonView.TabIndex = 31;
+            this.buttonView.Text = "View";
+            this.buttonView.UseVisualStyleBackColor = true;
+            this.buttonView.Click += new System.EventHandler(this.buttonView_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(800, 502);
+            this.Controls.Add(this.buttonView);
             this.Controls.Add(this.checkBoxAutoSet);
             this.Controls.Add(this.textBoxDec);
             this.Controls.Add(this.checkBoxDec);
@@ -467,5 +479,6 @@
         private TextBox textBoxDec;
         private CheckBox checkBoxDec;
         private CheckBox checkBoxAutoSet;
+        private Button buttonView;
     }
 }

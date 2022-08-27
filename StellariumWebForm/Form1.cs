@@ -608,5 +608,19 @@ namespace StellariumWebForm
         {
             this.Close();
         }
+
+        private void buttonView_Click(object sender, EventArgs e)
+        {
+            OpenWithDefaultProgram(textBoxFileToProcess.Text);
+        }
+
+        public static void OpenWithDefaultProgram(string path)
+        {
+            using Process fileopener = new Process();
+
+            fileopener.StartInfo.FileName = "explorer";
+            fileopener.StartInfo.Arguments = "\"" + path + "\"";
+            fileopener.Start();
+        }
     }
 }
