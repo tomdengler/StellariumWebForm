@@ -62,6 +62,9 @@
             this.checkBoxFov = new System.Windows.Forms.CheckBox();
             this.checkBoxRA = new System.Windows.Forms.CheckBox();
             this.textBoxRAhrs = new System.Windows.Forms.TextBox();
+            this.textBoxDec = new System.Windows.Forms.TextBox();
+            this.checkBoxDec = new System.Windows.Forms.CheckBox();
+            this.checkBoxAutoSet = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -347,12 +350,42 @@
             this.textBoxRAhrs.Size = new System.Drawing.Size(100, 23);
             this.textBoxRAhrs.TabIndex = 27;
             // 
+            // textBoxDec
+            // 
+            this.textBoxDec.Location = new System.Drawing.Point(78, 400);
+            this.textBoxDec.Name = "textBoxDec";
+            this.textBoxDec.Size = new System.Drawing.Size(100, 23);
+            this.textBoxDec.TabIndex = 29;
+            // 
+            // checkBoxDec
+            // 
+            this.checkBoxDec.AutoSize = true;
+            this.checkBoxDec.Location = new System.Drawing.Point(12, 404);
+            this.checkBoxDec.Name = "checkBoxDec";
+            this.checkBoxDec.Size = new System.Drawing.Size(46, 19);
+            this.checkBoxDec.TabIndex = 28;
+            this.checkBoxDec.Text = "Dec";
+            this.checkBoxDec.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxAutoSet
+            // 
+            this.checkBoxAutoSet.AutoSize = true;
+            this.checkBoxAutoSet.Location = new System.Drawing.Point(455, 148);
+            this.checkBoxAutoSet.Name = "checkBoxAutoSet";
+            this.checkBoxAutoSet.Size = new System.Drawing.Size(71, 19);
+            this.checkBoxAutoSet.TabIndex = 30;
+            this.checkBoxAutoSet.Text = "Auto Set";
+            this.checkBoxAutoSet.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(800, 502);
+            this.Controls.Add(this.checkBoxAutoSet);
+            this.Controls.Add(this.textBoxDec);
+            this.Controls.Add(this.checkBoxDec);
             this.Controls.Add(this.textBoxRAhrs);
             this.Controls.Add(this.checkBoxRA);
             this.Controls.Add(this.checkBoxFov);
@@ -431,5 +464,8 @@
         private CheckBox checkBoxFov;
         private CheckBox checkBoxRA;
         private TextBox textBoxRAhrs;
+        private TextBox textBoxDec;
+        private CheckBox checkBoxDec;
+        private CheckBox checkBoxAutoSet;
     }
 }

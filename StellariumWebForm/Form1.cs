@@ -62,7 +62,12 @@ namespace StellariumWebForm
         private void buttonSetCurrentView_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = "";
+            UpdateStellariumCurrentView();
 
+        }
+
+        private void UpdateStellariumCurrentView()
+        {
             string urlHost = "http://localhost:8090";
             string currentViewService = "/api/main/view";
 
@@ -70,7 +75,7 @@ namespace StellariumWebForm
             request.Method = "POST";
 
             NameValueCollection outgoingQueryString = HttpUtility.ParseQueryString(String.Empty);
-            outgoingQueryString.Add("j2000", textBoxSetCurrentView.Text);           
+            outgoingQueryString.Add("j2000", textBoxSetCurrentView.Text);
             string postData = outgoingQueryString.ToString();
             byte[] postBytes = Encoding.UTF8.GetBytes(postData);
             request.ContentLength = postBytes.Length;
@@ -84,7 +89,7 @@ namespace StellariumWebForm
 
             // todo: trap a bad response
             WebResponse response = request.GetResponse();
-            
+
 
             dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataStream);
@@ -94,12 +99,16 @@ namespace StellariumWebForm
             reader.Close();
             dataStream.Close();
             response.Close();
-
         }
 
         private void buttonSetRotation_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = "";
+            UpdateStellariumRotation();
+        }
+
+        private void UpdateStellariumRotation()
+        {
             string urlHost = "http://localhost:8090";
             string currentViewService = "/api/stelproperty/set";
 
@@ -349,7 +358,10 @@ namespace StellariumWebForm
             }
 
             if (checkBoxRA.Checked)
-                argList.Add("-ra " + textBoxRAhrs.Text);
+                argList.Add("-spd " + textBoxRAhrs.Text);
+
+            if (checkBoxDec.Checked)
+                argList.Add("-ra " + textBoxDec.Text);
 
             argList.Add("-f " + dstFilename);
             string args = String.Join(" ",argList.ToArray());
@@ -417,18 +429,30 @@ namespace StellariumWebForm
                 }
                 double RA = Convert.ToDouble(iniDict["CRVAL1"]);
                 double dec = Convert.ToDouble(iniDict["CRVAL2"]);
+                double rot = Convert.ToDouble(iniDict["CROTA2"]);
 
                 textBoxRAhrs.Text = Math.Round(RA / 15.0, 2).ToString();
 
                 textBoxRunAstapResults.AppendText("\r\n\r\nRA: " + RA);
                 textBoxRunAstapResults.AppendText("\r\ndec: " + dec);
+                textBoxRunAstapResults.AppendText("\r\nrot: " + rot);
+
 
                 RA *=  Math.PI/ 180;
                 dec *= Math.PI / 180;
+                rot = -(180 + rot);
 
                 string xyz = GetStellariumXYZ(RA, dec);
                 textBoxRunAstapResults.AppendText("\r\n\r\n"+xyz);
                 textBoxSetCurrentView.Text = xyz;
+                textBoxSetRotation.Text = "" + rot;
+
+                if (checkBoxAutoSet.Checked)
+                {
+                    UpdateStellariumCurrentView();
+                    UpdateStellariumRotation();
+                }
+
 
             }
             else
