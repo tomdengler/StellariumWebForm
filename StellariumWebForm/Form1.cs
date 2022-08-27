@@ -358,10 +358,10 @@ namespace StellariumWebForm
             }
 
             if (checkBoxRA.Checked)
-                argList.Add("-spd " + textBoxRAhrs.Text);
+                argList.Add("-ra " + textBoxRAhrs.Text);
 
             if (checkBoxDec.Checked)
-                argList.Add("-ra " + textBoxDec.Text);
+                argList.Add("-spd " + textBoxDec.Text);
 
             argList.Add("-f " + dstFilename);
             string args = String.Join(" ",argList.ToArray());
@@ -432,6 +432,7 @@ namespace StellariumWebForm
                 double rot = Convert.ToDouble(iniDict["CROTA2"]);
 
                 textBoxRAhrs.Text = Math.Round(RA / 15.0, 2).ToString();
+                textBoxDec.Text = Math.Round(dec +90.0, 2).ToString();
 
                 textBoxRunAstapResults.AppendText("\r\n\r\nRA: " + RA);
                 textBoxRunAstapResults.AppendText("\r\ndec: " + dec);
